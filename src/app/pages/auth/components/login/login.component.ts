@@ -41,6 +41,8 @@ export class LoginComponent {
       if(response.success){
         localStorage.setItem('accessToken',response.data.accessToken);
         localStorage.setItem('refreshToken',response.data.refreshToken);
+        localStorage.setItem('role', response.data.user.role);
+        localStorage.setItem('username', response.data.user.username);
       }
     })
   }

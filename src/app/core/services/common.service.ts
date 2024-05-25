@@ -17,4 +17,12 @@ export class CommonService {
     localStorage.removeItem('accessToken');
     this._router.navigate(['/auth']);
   }
+
+  getRole(){
+    return localStorage.getItem('role');
+  }
+
+  getUserName(){
+    return localStorage.getItem('username');
+  }
 }
