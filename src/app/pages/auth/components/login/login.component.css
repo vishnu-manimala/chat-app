@@ -1,0 +1,47 @@
+.login_conatiner{
+    display: flex; 
+    /* flex justify-center items-center min-h-screen body bg-slate-950  */
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    background-color: slategrey;
+}
+
+img {
+    min-height: inherit;
+  }
+  
+  input.ng-invalid.ng-touched {
+    border: red 1px solid;
+  }
+  mat-card {
+    margin: 2%;
+    padding: 15%;
+    height: 30rem;
+    width: 25rem;
+    background-color:palevioletred;
+    
+  }
+  button {
+    margin: 4%;
+  }
+  button:hover{
+      background-color: #212231;
+      color: white;
+  }
+  .body {
+    background-image: url("/assets/bkg-img10.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  h1 {
+      margin: 6%;
+      text-align: center;;
+      font-family: 'Montez', cursive;
+      font-size: xx-large;
+      color: #fcda9a;
+  }
+  .mat-mdc-form-field{
+      background-color: transparent;
+  }

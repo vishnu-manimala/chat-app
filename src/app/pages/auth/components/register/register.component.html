@@ -1,1 +1,81 @@
-<p>register works!</p>
+<div class="flex justify-center items-center min-h-screen bg-slate-950 body">
+  <div class="w-3/5 min-h-screen hidden md:block">
+
+  </div>
+  <div class="w-2/5 flex flex-row  justify-center items-center h-screen ">
+    <form [formGroup]="registerForm" (ngSubmit)="onRegisteruser()">
+      <mat-card>
+        <h1>Signup</h1>
+        <mat-card-content>
+          <mat-error *ngIf="showErrorMessage | async as error"> <b>{{ error }}</b></mat-error>
+
+          <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="userName" style="border: none;">
+            <mat-error *ngIf="registerForm.controls['userName'].errors?.['required']">* Username Required</mat-error>
+            <mat-error *ngIf="registerForm.controls['userName'].errors?.['whitespace']">*Enter valid
+              username</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" style="border: none;">
+            <mat-error *ngIf="registerForm.controls['email'].errors?.['required']">* Email Required</mat-error>
+            <mat-error *ngIf="registerForm.controls['email'].errors?.['email']">* Enter Proper Email</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Phonenumber</mat-label>
+            <input matInput formControlName="phoneNumber" style="border: none;">
+            <mat-error *ngIf="registerForm.controls['phoneNumber'].errors?.['required']">* Phonenumber
+              Required</mat-error>
+            <mat-error *ngIf="registerForm.controls['phoneNumber'].errors?.['pattern']">
+              Invalid phone number format.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" style="border: none;">
+            <mat-error *ngIf="registerForm.controls['password'].errors?.['required']">* Password Required</mat-error>
+            <mat-error *ngIf="registerForm.controls['password'].errors?.['whitespace']">*Enter valid
+              password</mat-error>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="!otpField">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" type="password" style="border: none;">
+            <small *ngIf="registerForm.get('confirmPassword')?.touched && !passwordMatch()" class="text-red-500">*
+              Password and confirm password should same</small>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="otpField">
+            <mat-label>Otp</mat-label>
+            <input matInput formControlName="otp" style="border: none;">
+            <small *ngIf="!registerForm.get('otp')?.value && registerForm.get('otp')?.touched" class="text-red-500">
+              *otp Required</small>
+          </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-footer>
+          <div class="flex flex-col justify-center items-center">
+
+            <button type="submit" *ngIf="!otpField; else otpBtn" mat-raised-button>
+              Signup
+            </button>
+            <ng-template #otpBtn>
+              <button type="submit" mat-raised-button>
+                Verify Otp
+              </button>
+            </ng-template>
+
+            <a *ngIf="!otpField" [routerLink]="['/auth']"
+              class="inline-flex items-center font-bold text-white hover:text-slate-400 text-xs text-center">
+              <span class="ml-2">Already have an account?</span>
+            </a>
+          </div>
+        </mat-card-footer>
+      </mat-card>
+    </form>
+  </div>
+</div>
