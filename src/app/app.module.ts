@@ -7,17 +7,25 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { UserRegistrationComponent } from './pages/user-registration/user-registration.component';
 import { UserLoginComponent } from './pages/user-login/user-login.component';
 import { UserChatComponent } from './pages/user-chat/user-chat.component';
+import { HomeComponent } from './shared/components/home/home.component';
+import { AuthComponent } from './layout/auth/auth.component';
+import { ChatComponent } from './layout/chat/chat.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     UserRegistrationComponent,
     UserLoginComponent,
-    UserChatComponent
+    UserChatComponent,
+    HomeComponent,
+    AuthComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    
   ],
   providers: [
     provideAnimationsAsync()
