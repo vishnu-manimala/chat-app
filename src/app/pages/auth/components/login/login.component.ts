@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { LoginData, LoginResponse } from '../../models/login-data.model';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,8 @@ export class LoginComponent {
   hide = true;
 
   loginForm!: FormGroup;
-
+  loginSubscription!: Subscription;
+  constructor( private _authService: AuthService){}
   ngOnInit(): void {
    
  
@@ -29,8 +32,17 @@ export class LoginComponent {
   }
 
   onLoginUser() {
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
+    const data: LoginData = {
+        username:this.loginForm.value.email,
+        password:this.loginForm.value.password
+    }
+    console.log(data);
+    this.loginSubscription = this._authService.userLogin(data).subscribe((response:LoginResponse)=>{
+      if(response.success){
+        localStorage.setItem('accessToken',response.data.accessToken);
+        localStorage.setItem('refreshToken',response.data.refreshToken);
+      }
+    })
   }
 
 

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { RegistrationResponse } from '../../models/registration-data.model';
 
 const phonePattern = /^\d{10}$/;
 @Component({
@@ -13,13 +15,13 @@ export class RegisterComponent {
   imgPath: string = '/assets/tablecloth-3336687_1920.jpg';
   otpField: boolean = false;
   showErrorMessage!: Observable<string>;
-
+  registerSubscription!: Subscription;
   registerForm!: FormGroup;
   email: string = '';
-  constructor(private router: Router,
-    private fb: FormBuilder,){}
-  ngOnInit(): void {
 
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) { }
+
+  ngOnInit(): void {
     this.registerForm = this.fb.group({
       userName: ['', [Validators.required, this.whiteSpaceValidator]],
       phoneNumber: [
@@ -29,7 +31,6 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.whiteSpaceValidator]],
       confirmPassword: ['', [Validators.required, this.whiteSpaceValidator]],
-      otp: [''],
     });
   }
 
@@ -38,22 +39,19 @@ export class RegisterComponent {
   }
 
   onRegisteruser() {
-    if (!this.otpField) {
-      if (this.registerForm.valid && this.passwordMatch()) {
-       console.log("register")
-      } else {
-        console.log("error")
-      }
+    if (this.registerForm.valid && this.passwordMatch()) {
+      const userData = {
+                          "email": this.registerForm.get('email')?.value,
+                          "password": this.registerForm.get('password')?.value,
+                          "role": "ADMIN",
+                          "username": this.registerForm.get('userName')?.value
+                        }
+      console.log(this.registerForm.value);
+      this.registerSubscription = this.authService.userRegistration(userData).subscribe((response:RegistrationResponse) => {
+        console.log(response.success);
+      })
     } else {
-      this.onVerify(this.email);
-    }
-  }
-
-  onVerify(email: string) {
-    const otp = this.registerForm.get('otp')?.value;
-
-    if (otp && email) {
-    
+      console.log("error")
     }
   }
 
@@ -61,5 +59,11 @@ export class RegisterComponent {
     const password = this.registerForm.get('password')?.value;
     const confirmPassword = this.registerForm.get('confirmPassword')?.value;
     return password === confirmPassword;
+  }
+
+  ngOnDestroy(): void {
+    if (this.registerSubscription) {
+      this.registerSubscription.unsubscribe();
+    }
   }
 }
