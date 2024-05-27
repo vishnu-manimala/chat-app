@@ -6,8 +6,8 @@
             </div>
             <div>
                 <div class="button-container">
-                    <button mat-mini-fab  aria-label="edit" (click)="showContacts()">
-                        <mat-icon >edit</mat-icon>
+                    <button mat-mini-fab aria-label="edit" (click)="showContacts()">
+                        <mat-icon>edit</mat-icon>
                     </button>
                 </div>
             </div>
@@ -48,69 +48,52 @@
 
     </div>
     <div class="messages">
-        <mat-card class="profile-container">
-            <mat-card-content>
-                <div class="profile-card">
-                    <img class="profile-image" src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                        alt="profile">
-                    <h1>Name</h1>
-                </div>
-            </mat-card-content>
-        </mat-card>
-        
-        <div class="message-list">
-            <mat-card class="chat">
-                <mat-card-content>Simple card</mat-card-content>
-            </mat-card>
-        </div>
-        <!-- <form class="chat-form">
-            <mat-form-field class="example-full-width">
-              <mat-label>Type a message</mat-label>
-              <input class="message-input" type="text" matInput placeholder="Enter your message...">
-             
-            </mat-form-field>
+        <div *ngIf="id">
 
-            <form class="example-form">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Message</mat-label>
-                  <input matInput #message maxlength="256"  placeholder="Ex. I need help with...">
+            <!-- reciever's profile card -->
+            <mat-card class="profile-container">
+                <mat-card-content>
+                    <div class="profile-card">
+                        <img class="profile-image" src="{{reciever[0].avatar.url}}" alt="profile">
+                        <h1>{{reciever[0].username}}</h1>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- shows messages between sender and reciever -->
+            <div class="message-list">
+                <div  *ngFor="let chat of privateChatMessages">
+                    <div class="admin-chat" *ngIf="chat.sender._id !== reciever[0]._id">
+                <mat-card class="chat" >
+                    <mat-card-content>{{chat.content}}</mat-card-content>
+                </mat-card>
+            </div>
+                <div class="user-chat" *ngIf="chat.sender._id === reciever[0]._id">
+                <mat-card class="chat" >
+                    <mat-card-content>{{chat.content}}</mat-card-content>
+                </mat-card>
+            </div>
+            </div>
+            </div>
+
+            <!-- message input area -->
+            <div class="chat-message-form">
+                <mat-form-field appearance="fill">
+                    <mat-label>Type your message...</mat-label>
+                    <textarea matInput [(ngModel)]="message" placeholder="Type your message..."></textarea>
+                    <input type="file" multiple (change)="handleFileInput($event)" hidden />
                 </mat-form-field>
-                <div class="image-upload">
-                    <mat-icon class="upload-icon" (click)="triggerFileInput()">add_a_photo</mat-icon>
-                    <input type="file" accept="image/*" #fileInput (change)="handleImageSelection($event)">
-                  </div>
-              </form>
-              
-          </form> -->
-          <!-- <div class="chat-message-form">
-            <mat-form-field appearance="fill">
-              <mat-label>Type your message...</mat-label>
-              <textarea matInput [(ngModel)]="message" placeholder="Type your message..."></textarea>
-              <input type="file" multiple (change)="handleFileInput($event)" hidden />
-            </mat-form-field>
-            <button mat-icon-button (click)="handleSendMessage()">
-              <mat-icon>send</mat-icon>
-            </button>
-            <button mat-icon-button (click)="handleFileInput($event)">
-              <mat-icon>attach_file</mat-icon>
-            </button>
-        </div> -->
-        <div class="chat-message-form">
-            <mat-form-field appearance="fill">
-              <mat-label>Type your message...</mat-label>
-              <textarea matInput [(ngModel)]="message" placeholder="Type your message..."></textarea>
-              <input type="file" multiple (change)="handleFileInput($event)" hidden />
-            </mat-form-field>
-            <button mat-icon-button (click)="handleSendMessage()">
-              <mat-icon>send</mat-icon>
-            </button>
-            <button mat-icon-button (click)="toggleUploadOptions()">
-              <mat-icon>attach_file</mat-icon>
-            </button>
-            <div class="upload-options" *ngIf="showUploadOptions">
-              <button mat-mini-button (click)="handleFileInput($event)">Image</button>
-              <button mat-mini-button (click)="handleFileInput($event)">Document</button>
-              <button mat-mini-button (click)="handleFileInput($event)">Video</button>
+                <button mat-icon-button (click)="handleSendMessage()">
+                    <mat-icon>send</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+                <div class="upload-options">
+                    <button mat-mini-button (click)="handleFileInput($event)">Image</button>
+                    <button mat-mini-button (click)="handleFileInput($event)">Document</button>
+                    <button mat-mini-button (click)="handleFileInput($event)">Video</button>
+                </div>
             </div>
         </div>
     </div>

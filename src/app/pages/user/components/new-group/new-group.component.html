@@ -1,0 +1,16 @@
+<h2 mat-dialog-title class="text-center">New Group!</h2>
+<mat-dialog-content class="mat-typography">
+        <mat-card class="contact-card" *ngFor="let item of [1,2,3,8,5,6,6,6,6]">
+            <mat-card-header>
+                <mat-card-title-group class="conatct-view">
+                    <mat-checkbox class="example-margin" value="">Checked</mat-checkbox>
+                    <img class="conatct-image" mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+                    <h4>Shiba Inu</h4>
+                </mat-card-title-group>
+            </mat-card-header>
+        </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center" >
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+  

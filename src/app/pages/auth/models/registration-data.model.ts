@@ -2,7 +2,7 @@ import { User } from "./login-data.model";
 
 export interface RegistrationData {
     "email": string;
-    "password": string;
+    "password"?: string;
     "role": string;
     "username": string;
 }

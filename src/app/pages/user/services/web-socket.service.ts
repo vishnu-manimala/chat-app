@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { io } from 'socket.io-client';
+import { ChatResponseModel } from '../models/chat.models';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +12,14 @@ export class WebSocketService {
   constructor(private _http: HttpClient) { }
   private socket = io(this.baseUrl)
 
-  joinPrivateRoom(data: { user: any; room: any; }) {
-    console.log("room",data);
-    
-    // this.socket.emit('join', data);
+  joinPrivateRoom(recieverId:string):Observable<ChatResponseModel> {
+    return this._http.post<ChatResponseModel>(`${this.baseUrl}/c/${recieverId}`,recieverId)
+    // this.socket.emit('join', data); 
   }
-  sendPrivateMessage(data: any) {
-    this.socket.emit('message', data);
+  sendPrivateMessage(chatId:string,content: FormData) {
+    return this._http.post(`https://api.freeapi.app/api/v1/chat-app/messages/${chatId}`,content)    
   }
+
+
+
 }

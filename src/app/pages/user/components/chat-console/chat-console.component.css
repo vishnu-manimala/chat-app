@@ -73,7 +73,7 @@
     width: 75%;
   }
   .chat{
-    margin: 3px;
+    margin: 5px;
     width: max-content;
   }
   .example-form {
@@ -84,38 +84,7 @@
     width: 75%;
   }
   
-  /* .image-upload {
-    position: relative;
-  }
-  
-  .upload-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    font-size: 2rem; 
-  }
-  
-  input[type="file"] {
-    width: 30%;
-    height: 100%;
-    opacity: 50%;
-    cursor: pointer;
-  } */
-
-  /* .chat-message-form {
-    display: flex; 
-  }
-  
-  input[type="file"] {
-
-    width: 0;
-    height: 0;
-    opacity: 0;
-  } */
-
-  .chat-message-form {
+    .chat-message-form {
     display: flex; /* Arrange buttons next to the text area */
   }
   
@@ -139,4 +108,14 @@
   
   .upload-options.show { /* Style for the visible popup */
     display: block;
+  }
+
+  .user-chat{
+    display: flex;
+    justify-content: start;
+  }
+
+  .admin-chat{
+    display: flex;
+    justify-content: end;
   }
