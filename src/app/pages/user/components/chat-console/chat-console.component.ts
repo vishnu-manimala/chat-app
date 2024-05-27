@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { User } from '../../../auth/models/login-data.model';
 import { ContactListComponent } from '../contact-list/contact-list.component';
 import { MatDialog } from '@angular/material/dialog';
+import { chatsModel } from '../../models/chat.models';
 
 @Component({
   selector: 'app-chat-console',
@@ -15,42 +16,25 @@ export class ChatConsoleComponent {
   showFiller = false;
   searchControl =  new FormControl('');
   userSubscription!:Subscription;
+  chatListSubscription!: Subscription;
   fileInput: any;
-
+  chats!:any;
   constructor(  private _userService: UserService, private _matDialog: MatDialog,){}
 
   ngOnInit(): void {
     this.userSubscription = this._userService.getAllUsers().subscribe((user:User[])=>{
       console.log(user);
     })
+    this.getChatList();
     
   }
-  // @Input() sendMessage!: (message: string, files: FileList | null) => void; // Function to send message
-  // message: string = '';
-  // files: FileList | null = null;
 
-  // handleSendMessage() {
-  //   if (this.message.trim() || this.files) {
-  //     this.sendMessage(this.message, this.files);
-  //     this.message = '';
-  //     this.files = null;
-  //   }
-  // }
-
-  // handleFileInput(event: any) {
-  //   this.files = event.target.files;
-  // }
- 
-
-  // triggerFileInput() {
-  //   this.fileInput.nativeElement.click();
-  // }
-
-  // handleImageSelection(event: any) {
-  //   const selectedFile = event.target.files[0];
-  //   console.log('Selected image:', selectedFile);
-  // }
-
+  getChatList(){
+    this.chatListSubscription = this._userService.getAllChats().subscribe((chats:chatsModel)=> {
+      this.chats = chats;
+      console.log(chats)
+    })
+  }
   @Input() sendMessage!: (message: string, files: FileList | null) => void; // Function to send message
   message: string = '';
   files: FileList | null = null;
@@ -77,7 +61,7 @@ export class ChatConsoleComponent {
   showContacts(){
     console.log("modal")
     this._matDialog.open(ContactListComponent, {
-      width: '450px',
+      width: '400px',
       })
   }
 
