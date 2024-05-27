@@ -8,6 +8,9 @@ import { HomeComponent } from './shared/components/home/home.component';
 import { AuthComponent } from './layout/auth/auth.component';
 import { ChatComponent } from './layout/chat/chat.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './layout/user/user.component';
+import { httpInterceptor } from './core/interceptors/http.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 
 @NgModule({
@@ -15,7 +18,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
     AppComponent,
     HomeComponent,
     AuthComponent,
-    ChatComponent
+    ChatComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +28,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: authInterceptor,
+      multi: true,
+    }
    
   ],
   bootstrap: [AppComponent]

@@ -13,6 +13,11 @@ export class CommonService {
     return isLoggedIn;
   }
 
+  getRefreshToken(){
+    const refreshToken = localStorage.getItem('refreshToken');
+    return refreshToken;
+  }
+
   logout() {
     localStorage.removeItem('accessToken');
     this._router.navigate(['/auth']);

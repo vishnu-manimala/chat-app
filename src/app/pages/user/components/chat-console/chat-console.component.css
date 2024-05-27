@@ -1,0 +1,142 @@
+.container, .chat-container {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 70px);
+  }
+  .heading{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .chat-list {
+    width: 30%;
+    margin: 16px;
+    background: paleturquoise;
+    height: calc(100vh);
+    border-radius: 16px;
+    box-shadow: 0 2px 5px rgb(50, 83, 204); 
+  }
+
+  .mat-form{
+    width: 90%;
+    height: 10%;
+    padding-top: 20px;
+    padding-left: 20px;
+    background-color: transparent ;
+    border-color: aqua;
+  }
+  
+  .tab{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .messages {
+    width: 70%;
+    height: calc(100vh);
+    margin: 16px;
+    background: whitesmoke;
+    border-radius: 16px;
+  }
+  
+
+  img{
+    height: 60px;
+    border-radius: 50%;
+  }
+
+  .profile-image{
+    height: 40px;
+    width: 40px;
+  }
+
+  .profile-card{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .profile-container{
+    background-color: whitesmoke;
+  }
+
+  .message-list{
+    height: calc(75vh);
+  }
+  .chat-form{
+    padding: 20px;
+    background-color: white;
+  }
+  .message-input{
+    width: 75%;
+  }
+  .chat{
+    margin: 3px;
+    width: max-content;
+  }
+  .example-form {
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 75%;
+  }
+  
+  /* .image-upload {
+    position: relative;
+  }
+  
+  .upload-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    font-size: 2rem; 
+  }
+  
+  input[type="file"] {
+    width: 30%;
+    height: 100%;
+    opacity: 50%;
+    cursor: pointer;
+  } */
+
+  /* .chat-message-form {
+    display: flex; 
+  }
+  
+  input[type="file"] {
+
+    width: 0;
+    height: 0;
+    opacity: 0;
+  } */
+
+  .chat-message-form {
+    display: flex; /* Arrange buttons next to the text area */
+  }
+  
+  input[type="file"] {
+    /* Hide the default file input appearance */
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  
+  .upload-options {
+    position: absolute; /* Position the popup absolutely */
+    background-color: white; /* Set background color */
+    border: 1px solid #ddd; /* Add border */
+    padding: 5px; /* Add padding */
+    top: calc(100% + 5px); /* Position below the button */
+    left: 0; /* Position at the left side of the button */
+    /* Adjust width and other styles as needed */
+    display: none; /* Initially hide the popup */
+  }
+  
+  .upload-options.show { /* Style for the visible popup */
+    display: block;
+  }
