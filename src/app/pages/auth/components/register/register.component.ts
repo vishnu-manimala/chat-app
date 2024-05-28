@@ -43,12 +43,16 @@ export class RegisterComponent {
       const userData = {
                           "email": this.registerForm.get('email')?.value,
                           "password": this.registerForm.get('password')?.value,
-                          "role": "ADMIN",
-                          "username": this.registerForm.get('userName')?.value
+                          // 
+                          "phone":this.registerForm.get('phoneNumber')?.value,
+                          "name": this.registerForm.get('userName')?.value
                         }
       console.log(this.registerForm.value);
-      this.registerSubscription = this.authService.userRegistration(userData).subscribe((response:RegistrationResponse) => {
-        console.log(response.success);
+      this.registerSubscription = this.authService.register(userData).subscribe((response) => {
+        console.log(response);
+        if(response){
+          this.router.navigate(['/']);
+        }
       })
     } else {
       console.log("error")

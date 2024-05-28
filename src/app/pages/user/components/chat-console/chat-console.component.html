@@ -54,26 +54,27 @@
             <mat-card class="profile-container">
                 <mat-card-content>
                     <div class="profile-card">
-                        <img class="profile-image" src="{{reciever[0].avatar.url}}" alt="profile">
-                        <h1>{{reciever[0].username}}</h1>
+                        <img class="profile-image" src="https://stock.adobe.com/search?k=%22avatar+icon%22"
+                            alt="profile">
+                        <h1>{{recieverName}}</h1>
                     </div>
                 </mat-card-content>
             </mat-card>
 
             <!-- shows messages between sender and reciever -->
             <div class="message-list">
-                <div  *ngFor="let chat of privateChatMessages">
-                    <div class="admin-chat" *ngIf="chat.sender._id !== reciever[0]._id">
-                <mat-card class="chat" >
-                    <mat-card-content>{{chat.content}}</mat-card-content>
-                </mat-card>
-            </div>
-                <div class="user-chat" *ngIf="chat.sender._id === reciever[0]._id">
-                <mat-card class="chat" >
-                    <mat-card-content>{{chat.content}}</mat-card-content>
-                </mat-card>
-            </div>
-            </div>
+                <div *ngFor="let chat of messageArray">
+                    <div class="admin-chat" *ngIf="chat.user !== recieverName ">
+                        <mat-card class="chat">
+                            <mat-card-content>{{chat.message}}</mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="user-chat" *ngIf="chat.user === recieverName">
+                        <mat-card class="chat">
+                            <mat-card-content>{{chat.message}}</mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
             </div>
 
             <!-- message input area -->

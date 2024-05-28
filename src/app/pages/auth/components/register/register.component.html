@@ -1,7 +1,4 @@
-<div class="flex justify-center items-center min-h-screen bg-slate-950 body">
-  <div class="w-3/5 min-h-screen hidden md:block">
-
-  </div>
+<div class="register">
   <div class="w-2/5 flex flex-row  justify-center items-center h-screen ">
     <form [formGroup]="registerForm" (ngSubmit)="onRegisteruser()">
       <mat-card>
@@ -49,13 +46,7 @@
               Password and confirm password should same</small>
           </mat-form-field>
 
-          <mat-form-field *ngIf="otpField">
-            <mat-label>Otp</mat-label>
-            <input matInput formControlName="otp" style="border: none;">
-            <small *ngIf="!registerForm.get('otp')?.value && registerForm.get('otp')?.touched" class="text-red-500">
-              *otp Required</small>
-          </mat-form-field>
-
+          
         </mat-card-content>
         <mat-card-footer>
           <div class="flex flex-col justify-center items-center">
@@ -69,7 +60,7 @@
               </button>
             </ng-template>
 
-            <a *ngIf="!otpField" [routerLink]="['/auth']"
+            <a *ngIf="!otpField" [routerLink]="['/']"
               class="inline-flex items-center font-bold text-white hover:text-slate-400 text-xs text-center">
               <span class="ml-2">Already have an account?</span>
             </a>

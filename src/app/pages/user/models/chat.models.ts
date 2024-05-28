@@ -1,5 +1,10 @@
 import { UserData, Avatar, User } from '../../auth/models/login-data.model';
 
+export interface ChatMessage{
+    user: string;
+    message: string;
+    _id:string 
+  }
 export interface ChatResponseModel{
     "data": chatsModel;
     "message": string;

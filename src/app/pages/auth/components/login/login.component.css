@@ -19,7 +19,7 @@ img {
     padding: 15%;
     height: 30rem;
     width: 25rem;
-    background-color:palevioletred;
+    background-color:white;
     
   }
   button {
@@ -29,8 +29,9 @@ img {
       background-color: #212231;
       color: white;
   }
+
   .body {
-    background-image: url("/assets/bkg-img10.jpeg");
+    background-image: url("https://wallpapercave.com/chat-wallpapers");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -40,7 +41,7 @@ img {
       text-align: center;;
       font-family: 'Montez', cursive;
       font-size: xx-large;
-      color: #fcda9a;
+      color: black;
   }
   .mat-mdc-form-field{
       background-color: transparent;

@@ -5,9 +5,11 @@ import { Subscription } from 'rxjs';
 import { User, UserData } from '../../../auth/models/login-data.model';
 import { ContactListComponent } from '../contact-list/contact-list.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AvailableUser, AvailableUserResponse, chatData, ChatMessageResponse, ChatResponseModel, chatsModel } from '../../models/chat.models';
+import { AvailableUser, AvailableUserResponse, chatData, ChatMessage, ChatMessageResponse, ChatResponseModel, chatsModel } from '../../models/chat.models';
 import { ActivatedRoute } from '@angular/router';
 import { WebSocketService } from '../../services/web-socket.service';
+import { SocketService } from '../../../../core/services/socket.service';
+import { UserDetails } from '../../../auth/models/login.model';
 
 @Component({
   selector: 'app-chat-console',
@@ -15,91 +17,107 @@ import { WebSocketService } from '../../services/web-socket.service';
   styleUrl: './chat-console.component.css'
 })
 export class ChatConsoleComponent {
-  showFiller = false;
-  searchControl =  new FormControl('');
-  userSubscription!:Subscription;
+  searchControl = new FormControl('');
+  userSubscription!: Subscription;
   chatListSubscription!: Subscription;
   fileInput: any;
-  chats!:any;
-  id:any;
+  chats!: chatsModel;
+  id: any;
+  recieverName:any;
   chatroom!: ChatResponseModel;
   message: string = '';
   files: FileList | null = null;
-  chatRoomId!:string;
-  reciever!:UserData[];
-  privateChatMessages:chatData[] = [];
+  chatRoomId!: string;
+  reciever!: UserData[];
+  privateChatMessages: chatData[] = [];
+  messageArray: ChatMessage[] = [];
+  messageStore: ChatMessage[] = [];
+  isTyping = false;
+  userID:string | null = "";
+  name:string| null = "";
+  userData!: UserDetails;
 
-  constructor(  private _userService: UserService, 
+  
+  constructor(private _userService: UserService,
     private _matDialog: MatDialog, private _route: ActivatedRoute,
-    private _socketService: WebSocketService
-  ){}
+    private _socketService: SocketService
+  ) { 
+     this.userID = localStorage.getItem('userId');
+     this.name = localStorage.getItem('username');
+    this._socketService.newMessageReceived().subscribe((data:ChatMessage) => {
+      console.log(typeof(this.privateChatMessages))
+      this.messageArray.push(data);
+    
+      console.log("chatl", this.messageArray)
+      this.isTyping = false;
+    });
+    this._socketService.receivedTyping().subscribe((bool: { isTyping: boolean }) => {
+      this.isTyping = bool.isTyping;
+    });
+  }
 
   ngOnInit(): void {
-    this.userSubscription = this._userService.getAllUsers().subscribe((user:AvailableUserResponse)=>{
-      console.log(user);
-    })
-    this.getChatList();
+    //this.getChatList();
+    this.getQueryParams()
+   
+    if (this.name  && this.name < this.recieverName) {
+      this.chatRoomId = this.name.concat(this.recieverName);
+    } else  {
+      this.chatroom = this.recieverName.concat(this.name);
+    }
+    this.getChatRoom();
+    this._userService.getChatRoomsChat(this.chatRoomId).subscribe((messages: ChatMessage[]) => {
+      this.messageArray = messages;
+      console.log("chatrromschat",this.messageArray)
+    });
+  }
+
+  getQueryParams(){
     this._route.queryParamMap.subscribe(params => {
       this.id = params.get('id');
-      console.log(this.id)
-      if(this.id){
-        this.getChatRoom();
-      }  
+      this.recieverName = params.get('name');
+      console.log( "userData", this.recieverName)
     })
   }
 
-getChatRoom(){
-  if(this.id){
-    this._socketService.joinPrivateRoom(this.id).subscribe((chatroom:ChatResponseModel)=>{
-      console.log("chatroom",chatroom)
-       this.reciever = chatroom.data.participants.filter((participant)=> chatroom.data.admin !== participant._id)
-      this.chatRoomId = chatroom.data._id;
-      this.getChatRoomMessages();
+  getChatRoom() {
+      console.log(this.name, this.chatRoomId)
+      this._socketService.joinRoom({ user: this.name, room: this.chatRoomId });
+      
+    }
+  
+
+  getChatRoomMessages() {
+    this._userService.getPrivateChat(this.chatRoomId).subscribe((chatMessages: ChatMessageResponse) => {
+      console.log("chatMessages>>", chatMessages)
+      this.privateChatMessages = chatMessages.data.reverse();
     })
   }
-}
 
-getChatRoomMessages(  ){
-  this._userService.getPrivateChat(this.chatRoomId).subscribe((chatMessages:ChatMessageResponse)=>{
-    console.log("chatMessages>>",chatMessages)
-    this.privateChatMessages = chatMessages.data.reverse();
-  })
-}
-  getChatList(){
-    this.chatListSubscription = this._userService.getAllChats().subscribe((chats:chatsModel)=> {
-      this.chats = chats;
-      console.log(chats)
-    })
+  getChatList() {
+   
   }
 
   handleSendMessage() {
-    if (this.message.trim() || this.files) {
-      const formData = new FormData();
-      formData.append('content', this.message);
-      console.log(this.message)
-      this._socketService.sendPrivateMessage(this.chatRoomId,formData).subscribe((responseData)=>{
-        console.log(responseData)
-        if(responseData){
-          this.message = '';
-          this.files = null;
-          this.getChatRoomMessages();
-        }
-      })
-     
-    }
-  }
+        this._socketService.sendMessage({room: this.chatRoomId, user: this.name, message: this.message});
+        this.message = '';
+        console.log("message array",this.messageArray)
+      }
+
+    
+  
 
   handleFileInput(event: any) {
     this.files = event.target.files;
   }
 
-  
 
-  showContacts(){
+
+  showContacts() {
     console.log("modal")
     this._matDialog.open(ContactListComponent, {
       width: '400px',
-      })
+    })
   }
 
 }

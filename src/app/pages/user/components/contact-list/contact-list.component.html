@@ -5,11 +5,11 @@
         <input type="text" class="search-contact" 
         placeholder="Search name..." [(ngModel)]="contact">
     </div>
-        <mat-card class="contact-card" *ngFor="let user of users">
-            <mat-card-header *ngIf="users">
-                <mat-card-title-group class="conatct-view" (click)="selectUser(user._id)">
-                    <img class="conatct-image" mat-card-sm-image src={{user.avatar.url}}>
-                    <h4>{{user.username}}</h4>
+        <mat-card class="contact-card" *ngFor="let user of userdata">
+            <mat-card-header *ngIf="userdata">
+                <mat-card-title-group class="conatct-view" (click)="selectUser(user)">
+                    <img class="conatct-image" mat-card-sm-image src="https://stock.adobe.com/search?k=%22avatar+icon%22">
+                    <h4>{{user.name}}</h4>
                 </mat-card-title-group>
             </mat-card-header>
         </mat-card>

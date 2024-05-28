@@ -5,14 +5,13 @@ import { AuthComponent } from './layout/auth/auth.component';
 import { AuthModule } from './pages/auth/auth.module';
 import { ChatComponent } from './layout/chat/chat.component';
 import { UserComponent } from './layout/user/user.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {  
-    path:'', component:HomeComponent 
-  },
+  
 
   {
-    path: 'auth',
+    path: '',
     component: AuthComponent,
     loadChildren: ()=> import('./pages/auth/auth.module').then((m) => m.AuthModule)
   },
@@ -20,6 +19,7 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserComponent,
+    canActivate:[authGuard],
     loadChildren: ()=> import('./pages/user/user.module').then((m) => m.UserModule)
   }
   

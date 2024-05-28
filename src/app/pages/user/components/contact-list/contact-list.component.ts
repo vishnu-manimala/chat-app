@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../auth/models/login-data.model';
-import { AvailableUser, AvailableUserResponse } from '../../models/chat.models';
+import { AvailableUser, AvailableUserResponse, ChatMessage } from '../../models/chat.models';
+import { AllUsers, UserDetails } from '../../../auth/models/login.model';
+import { SocketService } from '../../../../core/services/socket.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -15,18 +17,28 @@ export class ContactListComponent {
   users:AvailableUser[] = [];
   contact:string = "";
   userSubscription!:Subscription;
-  constructor(private _matDialog: MatDialog, private _router: Router, private _userService: UserService){}
+  userdata!:UserDetails[] ;
+ 
+  
+  constructor(private _matDialog: MatDialog, private _router: Router, private _userService: UserService,){
+   
+  }
 
   ngOnInit(): void {
-    this.userSubscription = this._userService.getAllUsers().subscribe((user:AvailableUserResponse)=>{
-      console.log("conatct list",);
-      this.users = user.data;
+    // this.userSubscription = this._userService.getAllUsers().subscribe((user:AvailableUserResponse)=>{
+    //   console.log("conatct list",);
+    //   this.users = user.data;
+    // })
+
+    this._userService.allUsers().subscribe((user: AllUsers)=>{
+     this.userdata = user.data;
+     console.log("conatct list",this.userdata);
     })
     
   }
-  selectUser(user:any){
+  selectUser(user:UserDetails){
     console.log(user);
     this._matDialog.closeAll()
-    this._router.navigate(['/user'],{ queryParams: { id: user } })
+    this._router.navigate(['/user'],{ queryParams: { id: user._id, name:user.name } })
   }
 }
