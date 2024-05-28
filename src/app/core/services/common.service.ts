@@ -9,7 +9,7 @@ export class CommonService {
   constructor(private _router:Router) { }
 
   isLoggedIn(){
-    const isLoggedIn = localStorage.getItem('accessToke')?true:false;
+    const isLoggedIn = localStorage.getItem('accessToken')?true:false;
     return isLoggedIn;
   }
 

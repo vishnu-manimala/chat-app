@@ -37,13 +37,18 @@ export class ChatConsoleComponent {
   name:string| null = "";
   userData!: UserDetails;
 
-  
+
   constructor(private _userService: UserService,
     private _matDialog: MatDialog, private _route: ActivatedRoute,
     private _socketService: SocketService
   ) { 
      this.userID = localStorage.getItem('userId');
      this.name = localStorage.getItem('username');
+    
+  }
+
+  ngOnInit(): void {
+    //this.getChatList();
     this._socketService.newMessageReceived().subscribe((data:ChatMessage) => {
       console.log(typeof(this.privateChatMessages))
       this.messageArray.push(data);
@@ -54,17 +59,14 @@ export class ChatConsoleComponent {
     this._socketService.receivedTyping().subscribe((bool: { isTyping: boolean }) => {
       this.isTyping = bool.isTyping;
     });
-  }
-
-  ngOnInit(): void {
-    //this.getChatList();
     this.getQueryParams()
    
     if (this.name  && this.name < this.recieverName) {
       this.chatRoomId = this.name.concat(this.recieverName);
     } else  {
-      this.chatroom = this.recieverName.concat(this.name);
+      this.chatRoomId = this.recieverName.concat(this.name);
     }
+    console.log("chatroom name",this.chatRoomId);
     this.getChatRoom();
     this._userService.getChatRoomsChat(this.chatRoomId).subscribe((messages: ChatMessage[]) => {
       this.messageArray = messages;

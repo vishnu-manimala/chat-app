@@ -64,16 +64,16 @@
             <!-- shows messages between sender and reciever -->
             <div class="message-list">
                 <div *ngFor="let chat of messageArray">
-                    <div class="admin-chat" *ngIf="chat.user !== recieverName ">
+                    <div class="admin-chat" [ngStyle]="{'justify-content': chat.user !== recieverName ? 'start' : 'end'}" >
                         <mat-card class="chat">
                             <mat-card-content>{{chat.message}}</mat-card-content>
                         </mat-card>
                     </div>
-                    <div class="user-chat" *ngIf="chat.user === recieverName">
+                    <!-- <div class="user-chat" *ngIf="chat.user === recieverName">
                         <mat-card class="chat">
                             <mat-card-content>{{chat.message}}</mat-card-content>
                         </mat-card>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

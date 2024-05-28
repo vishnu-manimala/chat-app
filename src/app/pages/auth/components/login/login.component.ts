@@ -46,6 +46,7 @@ export class LoginComponent {
         localStorage.setItem('refreshToken',response.refresh_token);
         localStorage.setItem('userId',JSON.stringify(response.data._id));
         localStorage.setItem('username',JSON.stringify(response.data.name));
+        localStorage.setItem('role',response.data.isAdmin?'ADMIN':'USER');
         this._router.navigate(['/user']);
       }
     })
